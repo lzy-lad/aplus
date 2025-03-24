@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XR as a Universal Language</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;600&display=swap">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    
+    canvas {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    
+    .reveal .slides section {
+      color: white;
+      text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+      padding: 20px;
+    }
+    
+    .reveal h1, .reveal h2, .reveal h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: #4fc3f7;
+      text-shadow: 0 0 15px rgba(79, 195, 247, 0.7);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    
+    .reveal h1 {
+      font-size: 2em;
+    }
+    
+    .reveal h2 {
+      font-size: 1.5em;
+    }
+    
+    .reveal p, .reveal li {
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+    
+    .reveal .controls {
+      color: #4fc3f7;
+    }
+    
+    .topic-label {
+      position: absolute;
+      color: white;
+      background: rgba(79, 195, 247, 0.6);
+      padding: 5px 10px;
+      border-radius: 0;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      transition: opacity 0.5s;
+      letter-spacing: 1px;
+    }
+    
+    .language-area {
+      position: absolute;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    .industry-node {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 0;
+      background: rgba(79, 195, 247, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 500;
+      font-size: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 0 20px rgba(79, 195, 247, 0.4);
+      font-family: 'Rajdhani', sans-serif;
+    }
+    
+    .industry-node:hover {
+      transform: scale(1.1);
+      background: rgba(79, 195, 247, 0.6);
+    }
+    
+    .case-study {
+      display: inline-block;
+      width: 150px;
+      height: 150px;
+      margin: 20px;
+      border: 1px solid rgba(79, 195, 247, 0.3);
+      background: rgba(79, 195, 247, 0.1);
+      text-align: center;
+      padding: 20px;
+      transition: all 0.3s;
+      vertical-align: top;
+      cursor: pointer;
+    }
+    
+    .case-study:hover {
+      transform: translateY(-10px);
+      background: rgba(79, 195, 247, 0.2);
+      border-color: rgba(79, 195, 247, 0.6);
+    }
+    
+    .case-study h3 {
+      margin-top: 0;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2em;
+    }
+    
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: #4fc3f7;
+      z-index: 1000;
+      box-shadow: 0 0 10px rgba(79, 195, 247, 0.7);
+    }
+    
+    .interaction-hint {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      padding: 10px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 12px;
+      opacity: 0.7;
+      letter-spacing: 1px;
+    }
+    
+    ul {
+      list-style-type: none;
+    }
+    
+    ul li:before {
+      content: '›';
+      color: #4fc3f7;
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  
+  <div class="interaction-hint">
+    Use arrows to navigate | Click on nodes to explore | Scroll to zoom
+  </div>
+  
+  <div class="reveal">
+    <div class="slides">
+      <!-- SLIDE 1: INTRODUCTION -->
+      <section data-transition="zoom">
+        <h1>XR as a Universal Language</h1>
+        <h3>Beyond Communication to Industry Transformation</h3>
+        <p>Presented at IIT Madras</p>
+      </section>
+      
+      <!-- SLIDE 2: LANGUAGE EVOLUTION -->
+      <section data-transition="zoom">
+        <h2>Language Evolution and Division</h2>
+        <p>Language: The innovation that distinguished humans from other species</p>
+        <div class="fragment">
+          <p>However, the same language has historically divided humans:</p>
+          <ul>
+            <li>European countries divided by language</li>
+            <li>Indian states organized by linguistic boundaries</li>
+          </ul>
+        </div>
+      </section>
+      
+      <!-- SLIDE 3: XR AS UNIFYING TECHNOLOGY -->
+      <section data-transition="fade">
+        <h2>XR: Unifying Technology</h2>
+        <p>XR serves as a front-end interface powered by AI and ML</p>
+        <p>Enables communication beyond verbal limitations:</p>
+        <ul>
+          <li class="fragment">Sign language</li>
+          <li class="fragment">Touch-based communication</li>
+          <li class="fragment">Communication through smell</li>
+          <li class="fragment">Etheric, heat, and water body communication</li>
+        </ul>
+      </section>
+      
+      <!-- SLIDE 4: AI'S ROLE -->
+      <section data-transition="slide">
+        <h2>AI's Role in Human Evolution</h2>
+        <p>Current AI technology handles repeatable, monotonous tasks</p>
+        <p class="fragment">By 2030: A transformed world welcoming the Beta generation</p>
+        <p class="fragment">Creating stronger foundations for holistic communication built on all five senses</p>
+      </section>
+      
+      <!-- SLIDE 5: BEYOND LITERARY APPLICATIONS -->
+      <section data-transition="convex" id="industry-section">
+        <h2>Beyond Literary Applications</h2>
+        <p>XR technology unifies applications across multiple industries</p>
+        <!-- Industry nodes will be added dynamically by Three.js -->
+      </section>
+      
+      <!-- SLIDE 6: XR COMMUNITY AT IIT MADRAS -->
+      <section data-transition="concave">
+        <h2>XR Community at IIT Madras</h2>
+        <p>XTEC at IIT Madras: Home to the world's first haptic lab within biomedical sciences</p>
+        <div class="fragment">
+          <p>Key initiatives:</p>
+          <ul>
+            <li>10 core R&D projects in biomedical sciences</li>
+            <li>CAVE consortium in automotive</li>
+            <li>Industry partnerships with leaders like Tata Motors</li>
+          </ul>
+        </div>
+      </section>
+      
+      <!-- SLIDE 7: XR AS A FLAT LEARNING ECOSYSTEM -->
+      <section data-transition="fade">
+        <h2>XR: A Flat Learning Ecosystem</h2>
+        <p>Traditional education has strict entry/exit criteria</p>
+        <p class="fragment">XR learning is flat - no preconditions beyond being human</p>
+        <p class="fragment">XR functions as a universal language across:</p>
+        <ul>
+          <li class="fragment">Linguistics</li>
+          <li class="fragment">Technology</li>
+          <li class="fragment">Applications</li>
+          <li class="fragment">Evolution</li>
+        </ul>
+      </section>
+      
+      <!-- SLIDE 8: EDUCATIONAL INITIATIVES -->
+      <section data-transition="slide">
+        <h2>Educational Initiatives and Opportunities</h2>
+        <p>Knowledge transfer to teachers through faculty development programs</p>
+        <p class="fragment">Comprehensive frameworks for students' projects</p>
+        <p class="fragment">Core R&D and applied R&D internships</p>
+        <p class="fragment">Building a sustainable, technologically advanced society</p>
+      </section>
+      
+      <!-- SLIDE 9: INVITATION TO ACADEMIA -->
+      <section data-transition="convex">
+        <h2>Invitation to Academia</h2>
+        <p>Engage in understanding XR tools through our training programs</p>
+        <p class="fragment">Opportunities for curriculum alignment, especially for top 22 colleges with IIT Madras MOUs</p>
+        <p class="fragment">National Education Policy (NEP) 2020 provides the solution for rapid adaptation</p>
+      </section>
+      
+      <!-- SLIDE 10: ADDRESSING RAPID TECHNOLOGICAL CHANGE -->
+      <section data-transition="zoom">
+        <h2>Addressing Rapid Technological Change</h2>
+        <p>XR content creation tools undergo rapid iteration every 3-6 months</p>
+        <p class="fragment">Academia faces challenges in adapting quickly</p>
+        <p class="fragment">NEP 2020 grants power to implement industry-oriented projects</p>
+        <p class="fragment">CAVE consortium supports AI-AR, AI-ML, and AI-XR combination projects</p>
+      </section>
+      
+      <!-- SLIDE 11: CASE STUDIES -->
+      <section data-transition="fade" id="case-studies">
+        <h2>XR Case Studies</h2>
+        <div class="case-study" id="defense">
+          <h3>XR in Defense</h3>
+          <p>Military training and strategic simulations</p>
+        </div>
+        <div class="case-study" id="automotive">
+          <h3>XR in Automotive</h3>
+          <p>Design, testing, and autonomous driving</p>
+        </div>
+        <div class="case-study" id="biomedical">
+          <h3>XR in Biomedical</h3>
+          <p>Surgical training and medical education</p>
+        </div>
+        <div class="case-study" id="education">
+          <h3>XR in Education</h3>
+          <p>Immersive learning experiences</p>
+        </div>
+        <div class="case-study" id="haptics">
+          <h3>XR in Haptics</h3>
+          <p>Touch-based interfaces and feedback systems</p>
+        </div>
+      </section>
+      
+      <!-- SLIDE 12: CLOSING -->
+      <section data-transition="zoom">
+        <h2>Thank You</h2>
+        <p>Questions and Discussion</p>
+        <p>Contact: [Your Contact Information]</p>
+      </section>
+    </div>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+  <script>
+    // Initialize Reveal.js
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      center: true,
+      hash: true,
+      transition: 'zoom',
+      // More info: https://revealjs.com/config/
+    });
+    
+    // THREE.JS IMPLEMENTATION
+    // Initialize Three.js scene
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    
+    // Create lights
+    const ambientLight = new THREE.AmbientLight(0x404040);
+    scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7);
+    directionalLight.position.set(1, 1, 1);
+    scene.add(directionalLight);
+    
+    // Create Earth globe
+    const earthGeometry = new THREE.SphereGeometry(5, 32, 32);
+    const earthMaterial = new THREE.MeshPhongMaterial({
+      color: 0x1a2b4a,
+      emissive: 0x0a1525,
+      specular: 0x4fc3f7,
+      shininess: 50,
+      opacity: 0.8,
+      transparent: true,
+      wireframe: true
+    });
+    const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+    scene.add(earth);
+    
+    // Create language particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particleCount = 1200;
+    const posArray = new Float32Array(particleCount * 3);
+    
+    for(let i = 0; i < particleCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 30;
+    }
+    
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.04,
+      color: 0x4fc3f7,
+      transparent: true,
+      opacity: 0.6
+    });
+    
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+    
+    // Create XR connections mesh
+    const connectionsGeometry = new THREE.BufferGeometry();
+    const linePositions = [];
+    const industryPositions = [
+      new THREE.Vector3(8, 4, 0),   // Military
+      new THREE.Vector3(8, -4, 0),  // Automotive
+      new THREE.Vector3(0, 6, 0),   // Healthcare
+      new THREE.Vector3(-8, 4, 0),  // Education
+      new THREE.Vector3(-8, -4, 0), // Entertainment
+      new THREE.Vector3(0, -6, 0),  // Simulation
+      new THREE.Vector3(4, 0, 4),   // Robotics
+      new THREE.Vector3(-4, 0, 4),  // Security
+      new THREE.Vector3(4, 0, -4),  // Autonomous driving
+      new THREE.Vector3(-4, 0, -4)  // Aviation
+    ];
+    
+    const centerPosition = new THREE.Vector3(0, 0, 0);
+    
+    // Create connections from center to each industry
+    industryPositions.forEach(position => {
+      linePositions.push(centerPosition.x, centerPosition.y, centerPosition.z);
+      linePositions.push(position.x, position.y, position.z);
+    });
+    
+    connectionsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+    const connectionsMaterial = new THREE.LineBasicMaterial({
+      color: 0x4fc3f7,
+      transparent: true,
+      opacity: 0.3
+    });
+    
+    const connectionLines = new THREE.LineSegments(connectionsGeometry, connectionsMaterial);
+    connectionLines.visible = false;
+    scene.add(connectionLines);
+    
+    // Create industry nodes
+    const industryNodes = [];
+    const industryLabels = [
+      'Military & Defense',
+      'Automotive',
+      'Healthcare',
+      'Education',
+      'Entertainment',
+      'Simulation',
+      'Robotics',
+      'Security',
+      'Autonomous Driving',
+      'Aviation'
+    ];
+    
+    industryPositions.forEach((position, index) => {
+      const nodeGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+      const nodeMaterial = new THREE.MeshPhongMaterial({
+        color: 0x4fc3f7,
+        emissive: 0x4fc3f7,
+        emissiveIntensity: 0.3,
+        transparent: true,
+        opacity: 0.7,
+        wireframe: true
+      });
+      
+      const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
+      node.position.copy(position);
+      node.visible = false;
+      scene.add(node);
+      
+      industryNodes.push({
+        mesh: node,
+        label: industryLabels[index],
+        position: position.clone()
+      });
+    });
+    
+    // Create HTML labels for industries
+    function createLabels() {
+      // Clear existing labels
+      document.querySelectorAll('.topic-label').forEach(el => el.remove());
+      
+      // Only create labels if we're on the industry slide
+      if (Reveal.getCurrentSlide().id !== 'industry-section') return;
+      
+      industryNodes.forEach(node => {
+        if (!node.mesh.visible) return;
+        
+        // Convert 3D position to screen position
+        const vector = node.position.clone();
+        vector.project(camera);
+        
+        const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (-(vector.y * 0.5) + 0.5) * window.innerHeight;
+        
+        if (x < 0 || x > window.innerWidth || y < 0 || y > window.innerHeight) return;
+        
+        const label = document.createElement('div');
+        label.className = 'topic-label';
+        label.textContent = node.label;
+        label.style.left = x + 'px';
+        label.style.top = (y - 30) + 'px';
+        
+        document.body.appendChild(label);
+      });
+    }
+    
+    // Position camera
+    camera.position.z = 10;
+    
+    // Animation variables
+    let currentScene = 0;
+    const sceneAnimations = [
+      // Scene 0: Introduction - Floating Earth
+      () => {
+        earth.rotation.y += 0.005;
+        earth.visible = true;
+        connectionLines.visible = false;
+        industryNodes.forEach(node => { node.mesh.visible = false; });
+        particlesMesh.visible = false;
+        camera.position.x += (0 - camera.position.x) * 0.05;
+        camera.position.y += (0 - camera.position.y) * 0.05;
+        camera.position.z += (10 - camera.position.z) * 0.05;
+      },
+      
+      // Scene 1: Language Evolution - Earth with language areas
+      () => {
+        earth.rotation.y += 0.003;
+        earth.visible = true;
+        connectionLines.visible = false;
+        industryNodes.forEach(node => { node.mesh.visible = false; });
+        particlesMesh.visible = true;
+        particlesMesh.rotation.y += 0.001;
+        camera.position.x += (3 - camera.position.x) * 0.05;
+        camera.position.y += (1 - camera.position.y) * 0.05;
+        camera.position.z += (8 - camera.position.z) * 0.05;
+      },
+      
+      // Scene 2: XR as Unifying Technology - Network begins to form
+      () => {
+        earth.rotation.y += 0.001;
+        earth.visible = true;
+        earth.material.opacity += (0.3 - earth.material.opacity) * 0.05;
+        connectionLines.visible = true;
+        particlesMesh.visible = true;
+        particlesMesh.rotation.y += 0.002;
+        
+        industryNodes.forEach(node => {
+          node.mesh.visible = true;
+          node.mesh.scale.set(0.5, 0.5, 0.5);
+          node.mesh.rotation.x += 0.01;
+          node.mesh.rotation.y += 0.01;
+        });
+        
+        camera.position.x += (0 - camera.position.x) * 0.05;
+        camera.position.y += (0 - camera.position.y) * 0.05;
+        camera.position.z += (15 - camera.position.z) * 0.05;
+        
+        createLabels();
+      },
+      
+      // Scene 3: AI's Role - Network with particles
+      () => {
+        earth.visible = false;
+        connectionLines.visible = true;
+        particlesMesh.visible = true;
+        particlesMesh.rotation.y += 0.004;
+        
+        industryNodes.forEach(node => {
+          node.mesh.visible = true;
+          node.mesh.scale.set(0.8, 0.8, 0.8);
+          node.mesh.rotation.x += 0.01;
+          node.mesh.rotation.y += 0.01;
+        });
+        
+        camera.position.x += (0 - camera.position.x) * 0.05;
+        camera.position.y += (3 - camera.position.y) * 0.05;
+        camera.position.z += (12 - camera.position.z) * 0.05;
+        
+        createLabels();
+      },
+      
+      // Scene 4: Industry Applications - Focused on industry nodes
+      () => {
+        earth.visible = false;
+        connectionLines.visible = true;
+        particlesMesh.visible = true;
+        particlesMesh.rotation.y += 0.002;
+        
+        industryNodes.forEach(node => {
+          node.mesh.visible = true;
+          node.mesh.scale.set(1, 1, 1);
+          node.mesh.rotation.x += 0.01;
+          node.mesh.rotation.y += 0.01;
+        });
+        
+        camera.rotation.y += 0.001;
+        camera.position.x += (0 - camera.position.x) * 0.05;
+        camera.position.y += (0 - camera.position.y) * 0.05;
+        camera.position.z += (10 - camera.position.z) * 0.05;
+        
+        createLabels();
+      },
+      
+      // Scene 5: IIT Madras Initiatives - Focus on center node
+      () => {
+        earth.visible = false;
+        connectionLines.visible = true;
+        particlesMesh.visible = true;
+        particlesMesh.rotation.y += 0.003;
+        
+        industryNodes.forEach(node => {
+          node.mesh.visible = true;
+          node.mesh.rotation.x += 0.01;
+          node.mesh.rotation.y += 0.01;
+        });
+        
+        camera.position.x += (0 - camera.position.x) * 0.05;
+        camera.position.y += (0 - camera.position.y) * 0.05;
+        camera.position.z += (7 - camera.position.z) * 0.05;
+      },
+      
+      // Scene 6: Flat Learning Ecosystem - Show hierarchical vs flat
+      () => {
+        earth.visible = false;
+        connectionLines.visible = false;
+        particlesMesh.visible = true;
+        particlesMesh.rotation.y += 0.005;
+        
+        industryNodes.forEach(node => {
+          node.mesh.visible = false;
+        });
+        
+        camera.position.x += (0 - camera.position.x) * 0.05;
+        camera.position.y += (0 - camera.position.y) * 0.05;
+        camera.position.z += (12 - camera.position.z) * 0.05;
+      },
+      
+      // Scene 7-12: Standard view for remaining slides
+      () => {
+        earth.visible = false;
+        connectionLines.visible = false;
+        particlesMesh.visible = true;
+        particlesMesh.rotation.y += 0.001;
+        
+        industryNodes.forEach(node => {
+          node.mesh.visible = false;
+        });
+        
+        camera.position.x += (0 - camera.position.x) * 0.05;
+        camera.position.y += (0 - camera.position.y) * 0.05;
+        camera.position.z += (15 - camera.position.z) * 0.05;
+      }
+    ];
+    
+    // Animate function
+    function animate() {
+      requestAnimationFrame(animate);
+      
+      // Get current slide index
+      const currentSlideIndex = Reveal.getIndices().h;
+      
+      // Update scene animation based on current slide
+      if (currentSlideIndex < sceneAnimations.length) {
+        sceneAnimations[currentSlideIndex]();
+      } else {
+        // Use last animation for any additional slides
+        sceneAnimations[sceneAnimations.length - 1]();
+      }
+      
+      // Update progress bar
+      const progress = Reveal.getProgress();
+      document.getElementById('progressBar').style.width = (progress * 100) + '%';
+      
+      // Make particlesMesh move
+      particlesMesh.rotation.x += 0.0003;
+      particlesMesh.rotation.y += 0.0003;
+      
+      renderer.render(scene, camera);
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      createLabels();
+    });
+    
+    // Handle slide changes
+    Reveal.addEventListener('slidechanged', event => {
+      // Update labels when slide changes
+      createLabels();
+      
+      // Add special handling for industry section
+      if (event.currentSlide.id === 'industry-section') {
+        connectionLines.visible = true;
+        industryNodes.forEach(node => {
+          node.mesh.visible = true;
+        });
+      }
+      
+      // Add special handling for case studies section
+      if (event.currentSlide.id === 'case-studies') {
+        // Set up case study interaction
+        document.querySelectorAll('.case-study').forEach(element => {
+          element.addEventListener('mouseenter', () => {
+            element.style.transform = 'translateY(-10px) scale(1.05)';
+            element.style.borderColor = '#4fc3f7';
+            element.style.boxShadow = '0 0 15px rgba(79, 195, 247, 0.5)';
+          });
+          
+          element.addEventListener('mouseleave', () => {
+            element.style.transform = '';
+            element.style.borderColor = 'rgba(79, 195, 247, 0.3)';
+            element.style.boxShadow = 'none';
+          });
+        });
+      }
+    });
+    
+    // Start animation
+    animate();
+  </script>
+</body>
+</html>
